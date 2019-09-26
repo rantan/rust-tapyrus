@@ -51,7 +51,33 @@ pub struct BlockHeader {
     /// The timestamp of the block, as claimed by the miner
     pub time: u32,
     /// Collection holds a signature for block hash which is consisted of block header without Proof.
-    pub proof: Signature,
+    //pub proof: Signature,
+    pub proof: Proof,
+}
+
+/// Collection holds a signature for block hash which is consisted of block header without Proof.
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct Proof {
+    /// Collection holds a signature for block hash which is consisted of block header without Proof.
+    pub signatures: Vec<Signature>,
+}
+
+impl Decodable for Proof {
+    #[inline]
+    fn consensus_decode<D: io::Read>(mut d: D) -> Result<Self, encode::Error> {
+        let signatures = Vec::<Signature>::consensus_decode(&mut d)?;
+        Ok(Proof { signatures: signatures })
+    }
+}
+
+impl Encodable for Proof {
+    #[inline]
+    fn consensus_encode<S: io::Write>(
+        &self,
+        mut s: S,
+    ) -> Result<usize, encode::Error> {
+        self.signatures.consensus_encode(&mut s)
+    }
 }
 
 /// A signature, which holds a Schnorr signature as blockdata::script::Script.

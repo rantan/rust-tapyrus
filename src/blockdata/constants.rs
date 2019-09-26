@@ -29,7 +29,7 @@ use std::default::Default;
 use blockdata::opcodes;
 use blockdata::script;
 use blockdata::transaction::{OutPoint, Transaction, TxOut, TxIn};
-use blockdata::block::{Block, BlockHeader, Signature};
+use blockdata::block::{Block, BlockHeader, Proof, Signature};
 use blockdata::script::Script;
 use network::constants::Network;
 use util::misc::hex_bytes;
@@ -98,7 +98,7 @@ pub fn genesis_block(network: Network) -> Block {
                     merkle_root: txdata[0].txid(),
                     im_merkle_root: txdata[0].ntxid(),
                     time: 1231006505,
-                    proof: Signature { signature: Script::new() },
+                    proof: Proof { signatures: Vec::new() },
                 },
                 txdata: txdata
             }
@@ -112,7 +112,7 @@ pub fn genesis_block(network: Network) -> Block {
                     merkle_root: txdata[0].txid(),
                     im_merkle_root: txdata[0].ntxid(),
                     time: 1296688602,
-                    proof: Signature { signature: Script::new() },
+                    proof: Proof { signatures: Vec::new() },
                 },
                 txdata: txdata
             }
@@ -126,7 +126,7 @@ pub fn genesis_block(network: Network) -> Block {
                     merkle_root: txdata[0].txid(),
                     im_merkle_root: txdata[0].ntxid(),
                     time: 1296688602,
-                    proof: Signature { signature: Script::new() },
+                    proof: Proof { signatures: Vec::new() },
                 },
                 txdata: txdata
             }
@@ -140,7 +140,7 @@ pub fn genesis_block(network: Network) -> Block {
                     merkle_root: txdata[0].txid(),
                     im_merkle_root: txdata[0].ntxid(),
                     time: 1562925929,
-                    proof: Signature { signature: Script::new() },
+                    proof: Proof { signatures: Vec::new() },
                 },
                 txdata: txdata
             }

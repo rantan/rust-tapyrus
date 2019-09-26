@@ -45,6 +45,7 @@ use secp256k1;
 use util::base58;
 use util::psbt;
 
+use blockdata::block::Signature;
 use blockdata::transaction::{TxOut, Transaction, TxIn};
 use network::message_blockdata::Inventory;
 use network::address::Address;
@@ -627,6 +628,7 @@ impl_vec!(Inventory);
 impl_vec!(Vec<u8>);
 impl_vec!((u32, Address));
 impl_vec!(u64);
+impl_vec!(Signature);
 
 impl Encodable for Vec<u8> {
     #[inline]
