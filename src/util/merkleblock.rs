@@ -43,7 +43,7 @@
 //! // $ bitcoin-cli gettxoutproof [\"$TXID\"]
 //! let mb_bytes = Vec::from_hex("01000000ba8b9cda965dd8e536670f9ddec10e53aab14b20bacad27b913719\
 //!     0000000000190760b278fe7b8565fda3b968b918d5fd997f993b23674c0af3b6fde300b38fa323afa6d43f36\
-//!     4667ed377d3b500c1622d911c3a5b0ab10ca0e2ac89c9460cb33a5914c000200000002252bf9d75c4f481ebb\
+//!     4667ed377d3b500c1622d911c3a5b0ab10ca0e2ac89c9460cb33a5914c00000200000002252bf9d75c4f481ebb\
 //!     6278d708257d1f12beb6dd30301d26c623f789b2ba6fc0e2d32adb5f8ca820731dff234a84e78ec30bce4ec6\
 //!     9dbd562d0b2b8266bf4e5a0105").unwrap();
 //! let mb: MerkleBlock = tapyrus::consensus::deserialize(&mb_bytes).unwrap();
@@ -361,10 +361,7 @@ impl PartialMerkleTree {
 }
 
 impl Encodable for PartialMerkleTree {
-    fn consensus_encode<S: io::Write>(
-        &self,
-        mut s: S,
-    ) -> Result<usize, encode::Error> {
+    fn consensus_encode<S: io::Write>(&self, mut s: S) -> Result<usize, encode::Error> {
         let ret = self.num_transactions.consensus_encode(&mut s)?
             + self.hashes.consensus_encode(&mut s)?;
         let mut bytes: Vec<u8> = vec![0; (self.bits.len() + 7) / 8];
@@ -425,7 +422,7 @@ impl MerkleBlock {
     /// // Block 80000
     /// let block_bytes = Vec::from_hex("01000000ba8b9cda965dd8e536670f9ddec10e53aab14b20bacad2\
     ///     7b9137190000000000190760b278fe7b8565fda3b968b918d5fd997f993b23674c0af3b6fde300b38fa3\
-    ///     23afa6d43f364667ed377d3b500c1622d911c3a5b0ab10ca0e2ac89c9460cb33a5914c00020100000001\
+    ///     23afa6d43f364667ed377d3b500c1622d911c3a5b0ab10ca0e2ac89c9460cb33a5914c0000020100000001\
     ///     0000000000000000000000000000000000000000000000000000000000000000ffffffff0704e6ed5b1b\
     ///     014effffffff0100f2052a01000000434104b68a50eaa0287eff855189f949c1c6e5f58b37c88231373d\
     ///     8a59809cbae83059cc6469d65c665ccfd1cfeb75c6e8e19413bba7fbff9bc762419a76d87b16086eac00\
@@ -482,12 +479,8 @@ impl MerkleBlock {
 }
 
 impl Encodable for MerkleBlock {
-    fn consensus_encode<S: io::Write>(
-        &self,
-        mut s: S,
-    ) -> Result<usize, encode::Error> {
-        let len = self.header.consensus_encode(&mut s)?
-            + self.txn.consensus_encode(s)?;
+    fn consensus_encode<S: io::Write>(&self, mut s: S) -> Result<usize, encode::Error> {
+        let len = self.header.consensus_encode(&mut s)? + self.txn.consensus_encode(s)?;
         Ok(len)
     }
 }
@@ -617,7 +610,7 @@ mod tests {
         let mb_hex =
             "0100000090f0a9f110702f808219ebea1173056042a714bad51b916cb6800000000000005275289558f51c\
             9966699404ae2294730c3c9f9bda53523ce50e9b95e558da2f0eab2fe48aeabac617a676aeea740f07e868e\
-            3441f2641c1bc040acc07966a45db261b4d000900000005fac7708a6e81b2a986dea60db2663840ed141130\
+            3441f2641c1bc040acc07966a45db261b4d00000900000005fac7708a6e81b2a986dea60db2663840ed141130\
             848162eb1bd1dee54f309a1b2ee1e12587e497ada70d9bd10d31e83f0a924825b96cb8d04e8936d793fb60d\
             b7ad8b910d0c7ba2369bc7f18bb53d80e1869ba2c32274996cebe1ae264bc0e2289189ff0316cdc10511da7\
             1da757e553cada9f3b5b1434f3923673adb57d83caac392c38af156d6fc30b55fad4112df2b95531e68114e\
@@ -720,7 +713,7 @@ mod tests {
         let block_hex =
             "0100000090f0a9f110702f808219ebea1173056042a714bad51b916cb6800000000000005275289558f51c\
             9966699404ae2294730c3c9f9bda53523ce50e9b95e558da2f0eab2fe48aeabac617a676aeea740f07e868e\
-            3441f2641c1bc040acc07966a45db261b4d0009010000000100000000000000000000000000000000000000\
+            3441f2641c1bc040acc07966a45db261b4d000009010000000100000000000000000000000000000000000000\
             00000000000000000000000000ffffffff07044c86041b0146ffffffff0100f2052a01000000434104e18f7\
             afbe4721580e81e8414fc8c24d7cfacf254bb5c7b949450c3e997c2dc1242487a8169507b631eb3771f2b42\
             5483fb13102c4eb5d858eef260fe70fbfae0ac00000000010000000196608ccbafa16abada902780da4dc35\
